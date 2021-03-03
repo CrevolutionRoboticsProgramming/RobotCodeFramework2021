@@ -13,14 +13,10 @@ import org.frc2851.robot.util.MotorControllerFactory;
 public class ExampleSubsystem extends Subsystem
 {
     private static ExampleSubsystem mInstance = new ExampleSubsystem();
-    private Component1 mComponent1;
-    private Component2 mComponent2;
 
     private ExampleSubsystem()
     {
-        mComponent1 = new Component1();
-        mComponent2 = new Component2();
-        addComponents(mComponent1, mComponent2);
+        addComponents(new Component1(), new Component2());
     }
 
     public static ExampleSubsystem getInstance()
