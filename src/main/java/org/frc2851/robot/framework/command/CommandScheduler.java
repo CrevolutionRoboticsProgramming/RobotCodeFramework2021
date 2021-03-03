@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import org.frc2851.robot.framework.Component;
 import org.frc2851.robot.framework.Subsystem;
 import org.frc2851.robot.framework.trigger.Trigger;
-import org.frc2851.robot.util.Logger;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,16 +18,11 @@ public final class CommandScheduler
     private HashMap<Trigger, Command> mCommands;
     private ArrayList<Command> mScheduledCommands;
 
-    private ArrayList<Command> mOldExecutedCommands;
-    private ArrayList<Command> mNewExecutedCommands;
-
     private CommandScheduler()
     {
         mSubsystems = new ArrayList<>();
         mCommands = new HashMap<>();
         mScheduledCommands = new ArrayList<>();
-        mOldExecutedCommands = new ArrayList<>();
-        mNewExecutedCommands = new ArrayList<>();
     }
 
     public static CommandScheduler getInstance()
@@ -139,23 +133,6 @@ public final class CommandScheduler
             command.execute();
             command.setState(Command.State.EXECUTING);
 
-            if (!mOldExecutedCommands.contains(command))
-            {
-                ArrayList<String> componentNames = new ArrayList<>();
-                for (Component component : command.getRequirements())
-                    componentNames.add(component.getName());
-
-                String message = command.getName().toUpperCase() + " was executed";
-
-                if (command instanceof InstantCommand)
-                    message += " (instantly)";
-                else if (command instanceof RunCommand)
-                    message += " (ongoing)";
-
-                Logger.println(Logger.LogLevel.DEBUG, componentNames.toString(), message);
-            }
-            mNewExecutedCommands.add(command);
-
             if (command.isFinished())
             {
                 command.end();
@@ -163,8 +140,5 @@ public final class CommandScheduler
                 scheduledCommandsIterator.remove();
             }
         }
-
-        mOldExecutedCommands = (ArrayList<Command>) mNewExecutedCommands.clone();
-        mNewExecutedCommands.clear();
     }
 }
