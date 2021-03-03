@@ -5,8 +5,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import org.frc2851.robot.framework.command.CommandScheduler;
 import org.frc2851.robot.subsystems.ExampleSubsystem;
 
-// Placeholder
-
 public final class Robot extends TimedRobot
 {
     public static void main(String... args)
